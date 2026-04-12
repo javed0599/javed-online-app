@@ -12,8 +12,8 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const systemScheme = useSystemColorScheme() ?? "light";
-  const [colorScheme, setColorSchemeState] = useState<ColorScheme>(systemScheme);
+  // Force light mode only - dark mode removed
+  const [colorScheme, setColorSchemeState] = useState<ColorScheme>("light");
 
   const applyScheme = useCallback((scheme: ColorScheme) => {
     nativewindColorScheme.set(scheme);
@@ -30,36 +30,38 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setColorScheme = useCallback((scheme: ColorScheme) => {
-    setColorSchemeState(scheme);
-    applyScheme(scheme);
+    // Ignore theme changes - always use light mode
+    setColorSchemeState("light");
+    applyScheme("light");
   }, [applyScheme]);
 
   useEffect(() => {
-    applyScheme(colorScheme);
-  }, [applyScheme, colorScheme]);
+    // Always apply light mode
+    applyScheme("light");
+  }, [applyScheme]);
 
   const themeVariables = useMemo(
     () =>
       vars({
-        "color-primary": SchemeColors[colorScheme].primary,
-        "color-background": SchemeColors[colorScheme].background,
-        "color-surface": SchemeColors[colorScheme].surface,
-        "color-foreground": SchemeColors[colorScheme].foreground,
-        "color-muted": SchemeColors[colorScheme].muted,
-        "color-border": SchemeColors[colorScheme].border,
-        "color-success": SchemeColors[colorScheme].success,
-        "color-warning": SchemeColors[colorScheme].warning,
-        "color-error": SchemeColors[colorScheme].error,
+        "color-primary": SchemeColors["light"].primary,
+        "color-background": SchemeColors["light"].background,
+        "color-surface": SchemeColors["light"].surface,
+        "color-foreground": SchemeColors["light"].foreground,
+        "color-muted": SchemeColors["light"].muted,
+        "color-border": SchemeColors["light"].border,
+        "color-success": SchemeColors["light"].success,
+        "color-warning": SchemeColors["light"].warning,
+        "color-error": SchemeColors["light"].error,
       }),
-    [colorScheme],
+    [],
   );
 
   const value = useMemo(
     () => ({
-      colorScheme,
+      colorScheme: "light" as ColorScheme,
       setColorScheme,
     }),
-    [colorScheme, setColorScheme],
+    [setColorScheme],
   );
   console.log(value, themeVariables)
 
