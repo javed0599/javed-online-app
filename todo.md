@@ -447,3 +447,21 @@
 - [x] Add web tab bar to Settings screen
 - [x] Test tab navigation on all screens
 - [x] Verify all 4 tabs display and work correctly
+
+
+## Result Card UI Design Redesign - User Requested
+
+- [x] Update result card with new "Test Details" header section
+- [x] Create status-based color scheme (Pending: orange, Passed: green, Failed: red)
+- [x] Add status icons with appropriate colors (pending: info icon, passed: checkmark, failed: X)
+- [x] Implement result-top section with status message and icon
+- [x] Implement result-bottom section with test details grid
+- [x] Display applicant name, passport, occupation, and test date in grid layout
+- [x] Add background color based on status (rgb(255, 250, 235) for pending, rgb(236, 253, 243) for passed, rgb(254, 243, 242) for failed)
+- [x] Update status text messages ("The result is pending.", "The result is passed.", "The result is failed.")
+- [x] Test result card on home screen with new design
+- [x] Test result card on result detail screen with new design
+- [x] Add custom SVG icons for pending, passed, and failed statuses
+- [x] Implement action buttons (Update, Delete) below result card
+- [x] TypeScript compilation successful with new design
+- [x] All 512 tests passing with new result card component
