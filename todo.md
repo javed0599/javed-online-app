@@ -479,3 +479,16 @@
 - [x] Test all changes on iOS and Android
 - [x] TypeScript compilation successful
 - [x] All 512 tests passing
+
+
+## HTML Demo Layout Alignment - User Requested
+
+- [x] Update result card grid layout to match HTML demo (2-column grid)
+- [x] Adjust label and value styling to match demo (label: 13px, value: 16px bold)
+- [x] Implement proper spacing between grid items (20px vertical, 16px horizontal)
+- [x] Make Test Centre field full-width at bottom of grid
+- [x] Ensure text alignment matches demo (labels left-aligned, values uppercase)
+- [x] Update result detail card with same layout
+- [x] Test layout on both home and result detail screens
+- [x] TypeScript compilation successful
+- [x] All 512 tests passing

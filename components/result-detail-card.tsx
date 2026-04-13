@@ -178,13 +178,13 @@ export function ResultDetailCard({
             </Text>
           </View>
 
-          {/* Details Grid */}
-          <View style={styles.detailsGrid}>
+          {/* Details Grid - 2 columns */}
+          <View style={styles.dataGrid}>
             {applicantName && (
-              <View style={styles.detailItem}>
+              <View style={[styles.gridField, styles.fullWidth]}>
                 <Text
                   style={[
-                    styles.detailLabel,
+                    styles.gridLabel,
                     {
                       color: colors.muted,
                     },
@@ -194,7 +194,7 @@ export function ResultDetailCard({
                 </Text>
                 <Text
                   style={[
-                    styles.detailValue,
+                    styles.gridValue,
                     {
                       color: colors.foreground,
                     },
@@ -205,10 +205,10 @@ export function ResultDetailCard({
               </View>
             )}
 
-            <View style={styles.detailItem}>
+            <View style={styles.gridField}>
               <Text
                 style={[
-                  styles.detailLabel,
+                  styles.gridLabel,
                   {
                     color: colors.muted,
                   },
@@ -218,7 +218,7 @@ export function ResultDetailCard({
               </Text>
               <Text
                 style={[
-                  styles.detailValue,
+                  styles.gridValue,
                   {
                     color: colors.foreground,
                   },
@@ -228,10 +228,10 @@ export function ResultDetailCard({
               </Text>
             </View>
 
-            <View style={styles.detailItem}>
+            <View style={styles.gridField}>
               <Text
                 style={[
-                  styles.detailLabel,
+                  styles.gridLabel,
                   {
                     color: colors.muted,
                   },
@@ -241,7 +241,7 @@ export function ResultDetailCard({
               </Text>
               <Text
                 style={[
-                  styles.detailValue,
+                  styles.gridValue,
                   {
                     color: colors.foreground,
                   },
@@ -251,10 +251,10 @@ export function ResultDetailCard({
               </Text>
             </View>
 
-            <View style={styles.detailItem}>
+            <View style={styles.gridField}>
               <Text
                 style={[
-                  styles.detailLabel,
+                  styles.gridLabel,
                   {
                     color: colors.muted,
                   },
@@ -264,7 +264,7 @@ export function ResultDetailCard({
               </Text>
               <Text
                 style={[
-                  styles.detailValue,
+                  styles.gridValue,
                   {
                     color: colors.foreground,
                   },
@@ -274,10 +274,11 @@ export function ResultDetailCard({
               </Text>
             </View>
 
-            <View style={styles.detailItem}>
+            {/* Test Centre - Full Width */}
+            <View style={[styles.gridField, styles.fullWidth, styles.testCentreField]}>
               <Text
                 style={[
-                  styles.detailLabel,
+                  styles.gridLabel,
                   {
                     color: colors.muted,
                   },
@@ -287,7 +288,7 @@ export function ResultDetailCard({
               </Text>
               <Text
                 style={[
-                  styles.detailValue,
+                  styles.gridValue,
                   {
                     color: colors.foreground,
                   },
@@ -389,32 +390,43 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   resultBottom: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
     borderWidth: 1,
   },
   detailsHeader: {
-    marginBottom: 12,
+    marginBottom: 20,
   },
   detailsTitle: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "600",
   },
-  detailsGrid: {
-    gap: 10,
+  // Grid layout matching HTML demo
+  dataGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginHorizontal: -8, // Negative margin to handle gaps
   },
-  detailItem: {
+  gridField: {
+    width: "50%",
+    paddingHorizontal: 8,
+    marginBottom: 20,
     flexDirection: "column",
-    alignItems: "flex-start",
   },
-  detailLabel: {
-    fontSize: 12,
-    fontWeight: "500",
-    marginBottom: 4,
+  fullWidth: {
+    width: "100%",
   },
-  detailValue: {
+  testCentreField: {
+    marginTop: 5,
+  },
+  gridLabel: {
     fontSize: 13,
-    fontWeight: "600",
+    fontWeight: "500",
+    marginBottom: 6,
+  },
+  gridValue: {
+    fontSize: 16,
+    fontWeight: "700",
   },
   pollingIndicator: {
     marginTop: 10,
