@@ -18,6 +18,7 @@ interface ResultCardProps {
   onPress?: () => void;
   onDelete?: () => void;
   onUpdate?: () => void;
+  showDeleteButton?: boolean;
 }
 
 // Status color configuration
@@ -91,6 +92,7 @@ export function ResultCard({
   onPress,
   onDelete,
   onUpdate,
+  showDeleteButton = false,
 }: ResultCardProps) {
   const colors = useColors();
   const { getPollingEntry } = usePolling();
@@ -282,6 +284,29 @@ export function ResultCard({
               {formattedDate}
             </Text>
           </View>
+
+          <View style={styles.detailItem}>
+            <Text
+              style={[
+                styles.detailLabel,
+                {
+                  color: colors.muted,
+                },
+              ]}
+            >
+              Test Centre:
+            </Text>
+            <Text
+              style={[
+                styles.detailValue,
+                {
+                  color: colors.foreground,
+                },
+              ]}
+            >
+              {displayResult.test_center_name}
+            </Text>
+          </View>
         </View>
 
         {/* Auto-checking indicator */}
@@ -311,8 +336,8 @@ export function ResultCard({
         )}
       </View>
 
-      {/* Action Buttons */}
-      {(onUpdate || onDelete) && (
+      {/* Action Buttons - Only show delete button if showDeleteButton is true */}
+      {showDeleteButton && onDelete && (
         <View
           style={[
             styles.actions,
@@ -321,52 +346,27 @@ export function ResultCard({
             },
           ]}
         >
-          {onUpdate && (
-            <Pressable
-              onPress={onUpdate}
-              style={({ pressed }) => [
-                styles.actionButton,
+          <Pressable
+            onPress={onDelete}
+            style={({ pressed }) => [
+              styles.actionButton,
+              {
+                opacity: pressed ? 0.6 : 1,
+              },
+            ]}
+          >
+            <MaterialIcons name="delete" size={20} color={colors.error} />
+            <Text
+              style={[
+                styles.actionButtonText,
                 {
-                  opacity: pressed ? 0.6 : 1,
+                  color: colors.error,
                 },
               ]}
             >
-              <MaterialIcons name="update" size={20} color={colors.primary} />
-              <Text
-                style={[
-                  styles.actionButtonText,
-                  {
-                    color: colors.primary,
-                  },
-                ]}
-              >
-                Update
-              </Text>
-            </Pressable>
-          )}
-          {onDelete && (
-            <Pressable
-              onPress={onDelete}
-              style={({ pressed }) => [
-                styles.actionButton,
-                {
-                  opacity: pressed ? 0.6 : 1,
-                },
-              ]}
-            >
-              <MaterialIcons name="delete" size={20} color={colors.error} />
-              <Text
-                style={[
-                  styles.actionButtonText,
-                  {
-                    color: colors.error,
-                  },
-                ]}
-              >
-                Delete
-              </Text>
-            </Pressable>
-          )}
+              Delete
+            </Text>
+          </Pressable>
         </View>
       )}
     </Pressable>
@@ -415,20 +415,17 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   detailItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: "column",
+    alignItems: "flex-start",
   },
   detailLabel: {
     fontSize: 12,
     fontWeight: "500",
+    marginBottom: 4,
   },
   detailValue: {
     fontSize: 13,
     fontWeight: "600",
-    flex: 1,
-    textAlign: "right",
-    marginLeft: 8,
   },
   pollingIndicator: {
     marginTop: 10,
@@ -441,7 +438,7 @@ const styles = StyleSheet.create({
   },
   actions: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 16,
     paddingVertical: 12,

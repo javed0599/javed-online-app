@@ -50,13 +50,6 @@ export default function HomeScreen() {
     );
   };
 
-  const handleUpdate = (id: string) => {
-    router.push({
-      pathname: "/result-detail",
-      params: { entryId: id, action: "update" },
-    });
-  };
-
   const handleCardPress = (id: string) => {
     router.push({
       pathname: "/result-detail",
@@ -178,8 +171,7 @@ export default function HomeScreen() {
               occupationName={item.occupation_name}
               entryId={item.id}
               onPress={() => handleCardPress(item.id)}
-              onDelete={() => handleDelete(item.id, item.passport_number)}
-              onUpdate={() => handleUpdate(item.id)}
+              showDeleteButton={false}
             />
             )}
             contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 12 }}

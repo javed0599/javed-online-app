@@ -31,7 +31,7 @@ export default function ResultDetailScreen() {
   const router = useRouter();
   const colors = useColors();
   const params = useLocalSearchParams();
-  const { getEntryById, addCheckHistory, addReferralNote, deleteReferralNote } =
+  const { getEntryById, addCheckHistory, addReferralNote, deleteReferralNote, deleteEntry } =
     useData();
 
   const entryId = params.entryId as string;
@@ -143,6 +143,27 @@ export default function ResultDetailScreen() {
     ]);
   };
 
+  const handleDelete = () => {
+    Alert.alert(
+      "Delete Entry",
+      `Are you sure you want to delete the entry for ${entry.passport_number}?`,
+      [
+        { text: "Cancel", onPress: () => {}, style: "cancel" },
+        {
+          text: "Delete",
+          onPress: async () => {
+            await deleteEntry(entryId);
+            await Haptics.notificationAsync(
+              Haptics.NotificationFeedbackType.Success
+            );
+            router.back();
+          },
+          style: "destructive",
+        },
+      ]
+    );
+  };
+
   const result = entry.latest_result;
   const lastCheckTime = entry.last_checked_at
     ? new Date(entry.last_checked_at).toLocaleString()
@@ -235,6 +256,7 @@ export default function ResultDetailScreen() {
                 occupationKey={entry.occupation_key}
                 occupationName={entry.occupation_name}
                 isPolling={pollingEntry?.isPolling}
+                onDelete={handleDelete}
               />
 
               {/* Action Buttons - Below Card */}
@@ -291,44 +313,7 @@ export default function ResultDetailScreen() {
                 </Pressable>
               </View>
 
-              {/* Reminder Button - Separate Section */}
-              <View style={{ marginBottom: 20 }}>
-                <Pressable
-                  onPress={handleSetReminder}
-                  disabled={reminderLoading}
-                  style={({ pressed }) => [{
-                    backgroundColor: hasReminder ? "#ef4444" : "#10b981",
-                    borderWidth: 2,
-                    borderColor: hasReminder ? "#ef4444" : "#10b981",
-                    paddingVertical: 12,
-                    borderRadius: 24,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    opacity: pressed || reminderLoading ? 0.7 : 1,
-                  }]}
-                >
-                  {reminderLoading ? (
-                    <ActivityIndicator color="white" />
-                  ) : (
-                    <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-                      <MaterialIcons
-                        name={hasReminder ? "notifications-active" : "notifications-none"}
-                        size={20}
-                        color="white"
-                      />
-                      <Text
-                        style={{
-                          color: "white",
-                          fontSize: 16,
-                          fontWeight: "600",
-                        }}
-                      >
-                        {hasReminder ? "CANCEL REMINDER" : "SET REMINDER"}
-                      </Text>
-                    </View>
-                  )}
-                </Pressable>
-              </View>
+
 
               {/* Auto-Check Indicator */}
               {pollingEntry?.isPolling && (

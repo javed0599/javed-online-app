@@ -465,3 +465,17 @@
 - [x] Implement action buttons (Update, Delete) below result card
 - [x] TypeScript compilation successful with new design
 - [x] All 512 tests passing with new result card component
+
+
+## UI Refinements - User Requested
+
+- [x] Remove remainder button from Result details screen
+- [x] Remove update button from Home screen result card
+- [x] Move delete button from Home screen result card to Result details card
+- [x] Apply same result card UI design to Result details screen
+- [x] Show "Test Centre" field on both Home and Result details cards
+- [x] Align all text to left (default) on both card UIs
+- [x] Verify button placement on both screens
+- [x] Test all changes on iOS and Android
+- [x] TypeScript compilation successful
+- [x] All 512 tests passing
