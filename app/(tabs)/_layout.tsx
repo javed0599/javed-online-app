@@ -54,25 +54,40 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="../exam-reminders"
+        name="reminders"
         options={{
           title: "Reminders",
           tabBarIcon: ({ color }) => <MaterialIcons name="event-note" size={24} color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            navigation.navigate("exam-reminders");
+          },
+        })}
       />
       <Tabs.Screen
-        name="../notification-history"
+        name="notifications"
         options={{
           title: "Notifications",
           tabBarIcon: ({ color }) => <MaterialIcons name="notifications" size={24} color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            navigation.navigate("notification-history");
+          },
+        })}
       />
       <Tabs.Screen
-        name="../settings"
+        name="settings"
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => <MaterialIcons name="settings" size={24} color={color} />,
         }}
+        listeners={({ navigation }) => ({
+          tabPress: (e) => {
+            navigation.navigate("settings");
+          },
+        })}
       />
     </Tabs>
   );

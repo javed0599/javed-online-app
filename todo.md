@@ -492,3 +492,24 @@
 - [x] Test layout on both home and result detail screens
 - [x] TypeScript compilation successful
 - [x] All 512 tests passing
+
+
+## Tab Bar Visibility Fix - COMPLETED
+
+- [x] Fix tab bar button visibility issue (only home button showing after APK build)
+- [x] Verify all tab icons are properly mapped in icon-symbol.tsx
+- [x] Test tab bar on both web preview and APK build
+- [x] Ensure tab navigation works correctly on all tabs
+
+## Reminder Features - COMPLETED
+
+- [x] Integrate PDF parser library (react-native-document-picker)
+- [x] Add PDF extraction for OCR processing in reminder form
+- [x] Implement form validation UI with real-time error messages
+- [x] Add validation for ticket data fields (date, center, etc.)
+- [x] Implement entry linking feature for reminders
+- [x] Allow users to link exam reminders to passport entries
+- [x] Enable automatic result checking on test date when linked
+- [x] Test all reminder features without affecting other screens
+- [x] All 512 tests passing
+- [x] TypeScript compilation successful
