@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Text, Pressable, StyleSheet, ActivityIndicator } from "react-native";
 import { useColors } from "@/hooks/use-colors";
 import { formatExamDate, getResultStatusColor, getResultStatusLabel } from "@/lib/api";
@@ -97,15 +96,12 @@ export function ResultCard({
   const colors = useColors();
   const { getPollingEntry } = usePolling();
   const pollingEntry = entryId ? getPollingEntry(entryId) : undefined;
-
-  // Use polling result if available, otherwise use provided result
-  const displayResult = pollingEntry?.lastResult || result;
-  const statusLabel = getResultStatusLabel(displayResult.exam_result);
-  const formattedDate = formatExamDate(displayResult.exam_date);
-  const isPolling = pollingEntry?.isPolling;
+  const isPolling = pollingEntry?.isPolling || false;
+  const statusLabel = getResultStatusLabel(result.exam_result);
+  const formattedDate = formatExamDate(result.exam_date);
 
   // Get status configuration
-  const status = displayResult.exam_result || "pending";
+  const status = result.exam_result || "pending";
   const statusConfig = STATUS_COLORS[status as keyof typeof STATUS_COLORS] || STATUS_COLORS.pending;
 
   // Get status message
@@ -127,72 +123,71 @@ export function ResultCard({
   };
 
   return (
-    <Pressable
-      onPress={onPress}
-      style={({ pressed }) => [
-        styles.container,
-        {
-          opacity: pressed ? 0.7 : 1,
-        },
-      ]}
-    >
-      {/* Result Top - Status Section */}
+    <>
       <View
         style={[
-          styles.resultTop,
+          styles.container,
           {
-            backgroundColor: statusConfig.backgroundColor,
-            borderBottomColor: statusConfig.lineColor,
+            overflow: "hidden",
           },
         ]}
       >
-        <View style={styles.statusContainer}>
-          {isPolling ? (
-            <ActivityIndicator size={24} color={statusConfig.iconColor} />
-          ) : (
-            getStatusIcon()
-          )}
-          <Text
-            style={[
-              styles.statusMessage,
-              {
-                color: statusConfig.textColor,
-              },
-            ]}
-          >
-            {getStatusMessage()}
-          </Text>
-        </View>
-      </View>
-
-      {/* Result Bottom - Test Details Section */}
-      <View
-        style={[
-          styles.resultBottom,
-          {
-            backgroundColor: colors.surface,
-            borderColor: colors.border,
-          },
-        ]}
-      >
-        {/* Header */}
-        <View style={styles.detailsHeader}>
-          <Text
-            style={[
-              styles.detailsTitle,
-              {
-                color: colors.foreground,
-              },
-            ]}
-          >
-            Test Details
-          </Text>
+        {/* Result Top - Status Section */}
+        <View
+          style={[
+            styles.resultTop,
+            {
+              backgroundColor: statusConfig.backgroundColor,
+              borderBottomColor: statusConfig.lineColor,
+            },
+          ]}
+        >
+          <View style={styles.statusContainer}>
+            {isPolling ? (
+              <ActivityIndicator size={24} color={statusConfig.iconColor} />
+            ) : (
+              getStatusIcon()
+            )}
+            <Text
+              style={[
+                styles.statusMessage,
+                {
+                  color: statusConfig.textColor,
+                },
+              ]}
+            >
+              {getStatusMessage()}
+            </Text>
+          </View>
         </View>
 
-        {/* Details Grid - 2 columns */}
-        <View style={styles.dataGrid}>
-          {applicantName && (
-            <View style={[styles.gridField, styles.fullWidth]}>
+        {/* Result Bottom - Test Details Section */}
+        <View
+          style={[
+            styles.resultBottom,
+            {
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+            },
+          ]}
+        >
+          {/* Header */}
+          <View style={styles.detailsHeader}>
+            <Text
+              style={[
+                styles.detailsTitle,
+                {
+                  color: colors.foreground,
+                },
+              ]}
+            >
+              Test Details
+            </Text>
+          </View>
+
+          {/* Row 1: Applicant Name + Passport No */}
+          <View style={styles.row}>
+            <View style={styles.column}>
               <Text
                 style={[
                   styles.gridLabel,
@@ -211,82 +206,83 @@ export function ResultCard({
                   },
                 ]}
               >
-                {applicantName}
+                {applicantName || "N/A"}
               </Text>
             </View>
-          )}
-
-          <View style={styles.gridField}>
-            <Text
-              style={[
-                styles.gridLabel,
-                {
-                  color: colors.muted,
-                },
-              ]}
-            >
-              Passport No.:
-            </Text>
-            <Text
-              style={[
-                styles.gridValue,
-                {
-                  color: colors.foreground,
-                },
-              ]}
-            >
-              {passportNumber}
-            </Text>
+            <View style={styles.column}>
+              <Text
+                style={[
+                  styles.gridLabel,
+                  {
+                    color: colors.muted,
+                  },
+                ]}
+              >
+                Passport No.:
+              </Text>
+              <Text
+                style={[
+                  styles.gridValue,
+                  {
+                    color: colors.foreground,
+                  },
+                ]}
+              >
+                {passportNumber}
+              </Text>
+            </View>
           </View>
 
-          <View style={styles.gridField}>
-            <Text
-              style={[
-                styles.gridLabel,
-                {
-                  color: colors.muted,
-                },
-              ]}
-            >
-              Occupation:
-            </Text>
-            <Text
-              style={[
-                styles.gridValue,
-                {
-                  color: colors.foreground,
-                },
-              ]}
-            >
-              {occupationName || "Loading..."}
-            </Text>
+          {/* Row 2: Occupation + Test Date */}
+          <View style={styles.row}>
+            <View style={styles.column}>
+              <Text
+                style={[
+                  styles.gridLabel,
+                  {
+                    color: colors.muted,
+                  },
+                ]}
+              >
+                Occupation:
+              </Text>
+              <Text
+                style={[
+                  styles.gridValue,
+                  {
+                    color: colors.foreground,
+                  },
+                ]}
+              >
+                {occupationName || "Loading..."}
+              </Text>
+            </View>
+            <View style={styles.column}>
+              <Text
+                style={[
+                  styles.gridLabel,
+                  {
+                    color: colors.muted,
+                  },
+                ]}
+              >
+                Test Date:
+              </Text>
+              <Text
+                style={[
+                  styles.gridValue,
+                  {
+                    color: colors.foreground,
+                  },
+                ]}
+              >
+                {formattedDate}
+              </Text>
+            </View>
           </View>
 
-          <View style={styles.gridField}>
-            <Text
-              style={[
-                styles.gridLabel,
-                {
-                  color: colors.muted,
-                },
-              ]}
-            >
-              Test Date:
-            </Text>
-            <Text
-              style={[
-                styles.gridValue,
-                {
-                  color: colors.foreground,
-                },
-              ]}
-            >
-              {formattedDate}
-            </Text>
-          </View>
-
-          {/* Test Centre - Full Width */}
-          <View style={[styles.gridField, styles.fullWidth, styles.testCentreField]}>
+          {/* Row 3: Test Centre (Full Width) */}
+          <View style={styles.fullWidthRow}>
             <Text
               style={[
                 styles.gridLabel,
@@ -305,72 +301,38 @@ export function ResultCard({
                 },
               ]}
             >
-              {displayResult.test_center_name}
+              {result.test_center_name}
             </Text>
           </View>
-        </View>
 
-        {/* Auto-checking indicator */}
-        {isPolling && (
-          <View
-            style={[
-              styles.pollingIndicator,
-              {
-                borderTopColor: colors.border,
-              },
-            ]}
-          >
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
-              <MaterialIcons name="sync" size={14} color={colors.primary} />
-              <Text
-                style={[
-                  styles.pollingText,
-                  {
-                    color: colors.primary,
-                  },
-                ]}
-              >
-                Auto-checking every 5 min
-              </Text>
-            </View>
-          </View>
-        )}
-      </View>
-
-      {/* Action Buttons - Only show delete button if showDeleteButton is true */}
-      {showDeleteButton && onDelete && (
-        <View
-          style={[
-            styles.actions,
-            {
-              borderTopColor: colors.border,
-            },
-          ]}
-        >
-          <Pressable
-            onPress={onDelete}
-            style={({ pressed }) => [
-              styles.actionButton,
-              {
-                opacity: pressed ? 0.6 : 1,
-              },
-            ]}
-          >
-            <MaterialIcons name="delete" size={20} color={colors.error} />
-            <Text
+          {/* Auto-checking indicator */}
+          {isPolling && (
+            <View
               style={[
-                styles.actionButtonText,
+                styles.pollingIndicator,
                 {
-                  color: colors.error,
+                  borderTopColor: colors.border,
                 },
               ]}
             >
-              Delete
-            </Text>
-          </Pressable>
+              <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                <MaterialIcons name="sync" size={14} color={colors.primary} />
+                <Text
+                  style={[
+                    styles.pollingText,
+                    {
+                      color: colors.primary,
+                    },
+                  ]}
+                >
+                  Auto-checking every 5 min
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
-      )}
-    </Pressable>
+      </View>
+    </>
   );
 }
 
@@ -378,7 +340,6 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
     marginBottom: 12,
-    overflow: "hidden",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -406,29 +367,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
   detailsHeader: {
-    marginBottom: 20,
+    marginBottom: 16,
   },
   detailsTitle: {
     fontSize: 18,
     fontWeight: "600",
   },
-  // Grid layout matching HTML demo
-  dataGrid: {
+  // Row layout
+  row: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    marginHorizontal: -8, // Negative margin to handle gaps
-  },
-  gridField: {
-    width: "50%",
-    paddingHorizontal: 8,
     marginBottom: 20,
-    flexDirection: "column",
+    gap: 16,
   },
-  fullWidth: {
-    width: "100%",
+  column: {
+    flex: 1,
   },
-  testCentreField: {
-    marginTop: 5,
+  fullWidthRow: {
+    marginBottom: 12,
   },
   gridLabel: {
     fontSize: 13,
@@ -447,26 +402,5 @@ const styles = StyleSheet.create({
   pollingText: {
     fontSize: 12,
     fontWeight: "500",
-  },
-  actions: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    gap: 12,
-  },
-  actionButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 8,
-  },
-  actionButtonText: {
-    fontSize: 12,
-    fontWeight: "600",
   },
 });

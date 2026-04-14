@@ -513,3 +513,13 @@
 - [x] Test all reminder features without affecting other screens
 - [x] All 512 tests passing
 - [x] TypeScript compilation successful
+
+
+## Card Layout Refinement - User Requested
+
+- [x] Update result card to 2-row layout (Row 1: Applicant Name + Passport No, Row 2: Occupation + Test Date, Row 3: Test Centre full-width)
+- [x] Update result detail card with same 2-row layout
+- [x] Ensure left-right alignment matches user image exactly
+- [x] Test layout on both home and result detail screens
+- [x] All 512 tests passing
+- [x] TypeScript compilation successful

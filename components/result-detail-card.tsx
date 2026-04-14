@@ -178,34 +178,31 @@ export function ResultDetailCard({
             </Text>
           </View>
 
-          {/* Details Grid - 2 columns */}
-          <View style={styles.dataGrid}>
-            {applicantName && (
-              <View style={[styles.gridField, styles.fullWidth]}>
-                <Text
-                  style={[
-                    styles.gridLabel,
-                    {
-                      color: colors.muted,
-                    },
-                  ]}
-                >
-                  Applicant Name:
-                </Text>
-                <Text
-                  style={[
-                    styles.gridValue,
-                    {
-                      color: colors.foreground,
-                    },
-                  ]}
-                >
-                  {applicantName}
-                </Text>
-              </View>
-            )}
-
-            <View style={styles.gridField}>
+          {/* Row 1: Applicant Name + Passport No */}
+          <View style={styles.row}>
+            <View style={styles.column}>
+              <Text
+                style={[
+                  styles.gridLabel,
+                  {
+                    color: colors.muted,
+                  },
+                ]}
+              >
+                Applicant Name:
+              </Text>
+              <Text
+                style={[
+                  styles.gridValue,
+                  {
+                    color: colors.foreground,
+                  },
+                ]}
+              >
+                {applicantName || "N/A"}
+              </Text>
+            </View>
+            <View style={styles.column}>
               <Text
                 style={[
                   styles.gridLabel,
@@ -227,8 +224,11 @@ export function ResultDetailCard({
                 {passportNumber}
               </Text>
             </View>
+          </View>
 
-            <View style={styles.gridField}>
+          {/* Row 2: Occupation + Test Date */}
+          <View style={styles.row}>
+            <View style={styles.column}>
               <Text
                 style={[
                   styles.gridLabel,
@@ -250,8 +250,7 @@ export function ResultDetailCard({
                 {occupationName || "Loading..."}
               </Text>
             </View>
-
-            <View style={styles.gridField}>
+            <View style={styles.column}>
               <Text
                 style={[
                   styles.gridLabel,
@@ -273,30 +272,30 @@ export function ResultDetailCard({
                 {formattedDate}
               </Text>
             </View>
+          </View>
 
-            {/* Test Centre - Full Width */}
-            <View style={[styles.gridField, styles.fullWidth, styles.testCentreField]}>
-              <Text
-                style={[
-                  styles.gridLabel,
-                  {
-                    color: colors.muted,
-                  },
-                ]}
-              >
-                Test Centre:
-              </Text>
-              <Text
-                style={[
-                  styles.gridValue,
-                  {
-                    color: colors.foreground,
-                  },
-                ]}
-              >
-                {result.test_center_name}
-              </Text>
-            </View>
+          {/* Row 3: Test Centre (Full Width) */}
+          <View style={styles.fullWidthRow}>
+            <Text
+              style={[
+                styles.gridLabel,
+                {
+                  color: colors.muted,
+                },
+              ]}
+            >
+              Test Centre:
+            </Text>
+            <Text
+              style={[
+                styles.gridValue,
+                {
+                  color: colors.foreground,
+                },
+              ]}
+            >
+              {result.test_center_name}
+            </Text>
           </View>
 
           {/* Auto-checking indicator */}
@@ -400,6 +399,17 @@ const styles = StyleSheet.create({
   detailsTitle: {
     fontSize: 18,
     fontWeight: "600",
+  },
+  row: {
+    flexDirection: "row",
+    marginBottom: 20,
+    gap: 16,
+  },
+  column: {
+    flex: 1,
+  },
+  fullWidthRow: {
+    marginBottom: 12,
   },
   // Grid layout matching HTML demo
   dataGrid: {
